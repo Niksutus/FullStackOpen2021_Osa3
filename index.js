@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const axios = require('axios')
 
 app.use(express.json())
 
@@ -53,12 +54,39 @@ app.delete('/api/persons/:id', (req, res) => {
 })
 
 app.post('/api/persons', (req, res) => {
-    const person = req.body
-    person.id = Math.floor(Math.random() *200) 
-
-    persons = persons.concat(person)
     
-    res.json(person)
+    const body = req.body
+    
+    axios
+        .get('http://localhost:3001/api/persons')
+        .then(response => {
+            let updatedPersons = response.data;
+            let nameArray = updatedPersons.map(person => person.name); 
+    
+        if (!body.name) {
+            return res.status(400).json({
+            error: 'name missing'
+        })
+        } else if(nameArray.includes(body.name)){
+            return res.status(400).json({
+            error: 'name must be unique'
+        })
+        } else if (!body.number){
+            return res.status(400).json({
+            error: 'number missing'
+        })
+        }
+
+        const person = {
+            name: body.name,
+            number: body.number,
+            id: Math.floor(Math.random()*200)
+        }
+
+        persons = persons.concat(person)
+        res.json(body);
+    })  
+
 })
 
 const PORT = 3001
