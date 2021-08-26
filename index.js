@@ -5,7 +5,11 @@ const morgan = require('morgan')
 
 app.use(express.json())
 
+// morgan.token('type', function (req, res) { return req.body })
+
+
 app.use(morgan('tiny'))
+
 
 let persons = [
       {
