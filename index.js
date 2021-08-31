@@ -4,6 +4,9 @@ const axios = require('axios')
 const morgan = require('morgan')
 
 app.use(express.json())
+const cors = require('cors')
+
+app.use(cors())
 
 // morgan.token('type', function (req, res) { return req.body })
 
