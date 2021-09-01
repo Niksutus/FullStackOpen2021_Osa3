@@ -68,35 +68,32 @@ app.post('/api/persons', (req, res) => {
     
     const body = req.body
     
-    axios
-        .get('https://blooming-shelf-16814/api/persons')
-        .then(response => {
-            let updatedPersons = response.data;
-            let nameArray = updatedPersons.map(person => person.name); 
     
-        if (!body.name) {
-            return res.status(400).json({
-            error: 'name missing'
-        })
-        } else if(nameArray.includes(body.name)){
-            return res.status(400).json({
-            error: 'name must be unique'
-        })
-        } else if (!body.number){
-            return res.status(400).json({
-            error: 'number missing'
-        })
-        }
+    let nameArray = persons.map(person => person.name); 
+    
+    if (!body.name) {
+        return res.status(400).json({
+        error: 'name missing'
+    })
+    } else if(nameArray.includes(body.name)){
+        return res.status(400).json({
+        error: 'name must be unique'
+    })
+    } else if (!body.number){
+        return res.status(400).json({
+        error: 'number missing'
+    })
+    } 
+        
 
-        const person = {
-            name: body.name,
-            number: body.number,
-            id: Math.floor(Math.random()*200)
-        }
+    const person = {
+        name: body.name,
+        number: body.number,
+        id: Math.floor(Math.random()*200)
+    }
 
-        persons = persons.concat(person)
-        res.json(body);
-    })  
+    persons = persons.concat(person)
+    res.json(body);
 
 })
 
