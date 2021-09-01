@@ -67,9 +67,12 @@ app.delete('/api/persons/:id', (req, res) => {
 app.post('/api/persons', (req, res) => {
     
     const body = req.body
-    
-    
-    let nameArray = persons.map(person => person.name); 
+
+    let nameArray = [];
+
+    for (let person of persons) {
+        nameArray.push(person.name)
+    }
     
     if (!body.name) {
         return res.status(400).json({
