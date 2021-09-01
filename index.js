@@ -68,7 +68,7 @@ app.post('/api/persons', (req, res) => {
     const body = req.body
     
     axios
-        .get('http://localhost:3001/api/persons')
+        .get('https://blooming-shelf-16814.herokuapp.com/api/persons')
         .then(response => {
             let updatedPersons = response.data;
             let nameArray = updatedPersons.map(person => person.name); 
