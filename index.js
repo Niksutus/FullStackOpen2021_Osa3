@@ -72,35 +72,18 @@ app.post('/api/persons', (req, res) => {
     
     const body = req.body
 
-    let nameArray = [];
-
-    for (let person of persons) {
-        nameArray.push(person.name)
+    if(body.name === undefined){
+        return res.status(400).json({error: 'content missing'})
     }
-    
-    if (!body.name) {
-        return res.status(400).json({
-        error: 'name missing'
-    })
-    } else if(nameArray.includes(body.name)){
-        return res.status(400).json({
-        error: 'name must be unique'
-    })
-    } else if (!body.number){
-        return res.status(400).json({
-        error: 'number missing'
-    })
-    } 
-        
 
-    const person = {
+    const person = new Person({
         name: body.name,
-        number: body.number,
-        id: Math.floor(Math.random()*200)
-    }
+        number: body.number
+    })
 
-    persons = persons.concat(person)
-    res.json(body);
+    person.save().then(savedPerson => {
+        res.json(savedPerson)
+    })
 
 })
 
